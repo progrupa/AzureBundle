@@ -1,0 +1,19 @@
+{
+    "name":         "progrupa/azure-bundle",
+    "type":         "symfony-bundle",
+    "license":      "proprietary",
+    "autoload": {
+        "psr-4": {
+            "Progrupa\\AzureBundle\\": ""
+        }
+    },
+    "require": {
+        "php": ">=5.6.0",
+        "guzzlehttp/guzzle": "~6.0",
+        "jms/serializer-bundle": "dev-master"
+    },
+    "require-dev": {
+    },
+    "extra": {
+    }
+}
