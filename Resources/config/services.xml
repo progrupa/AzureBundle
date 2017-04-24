@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="progrupa.azure.http.class">GuzzleHttp\Client</parameter>
+        <parameter key="progrupa.azure.config.class">Progrupa\Azure\Configuration</parameter>
+        <parameter key="progrupa.azure.client.class">Progrupa\Azure\ApiClient</parameter>
+
+        <parameter key="progrupa.azure.accounts_api.class">Progrupa\Azure\Api\AccountsApi</parameter>
+        <parameter key="progrupa.azure.applications_api.class">Progrupa\Azure\Api\ApplicationsApi</parameter>
+        <parameter key="progrupa.azure.certificates_api.class">Progrupa\Azure\Api\CertificatesApi</parameter>
+        <parameter key="progrupa.azure.compute_nodes_api.class">Progrupa\Azure\Api\ComputeNodesApi</parameter>
+        <parameter key="progrupa.azure.files_api.class">Progrupa\Azure\Api\FilesApi</parameter>
+        <parameter key="progrupa.azure.jobs_api.class">Progrupa\Azure\Api\JobsApi</parameter>
+        <parameter key="progrupa.azure.job_schedules_api.class">Progrupa\Azure\Api\JobSchedulesApi</parameter>
+        <parameter key="progrupa.azure.pools_api.class">Progrupa\Azure\Api\PoolsApi</parameter>
+        <parameter key="progrupa.azure.tasks_api.class">Progrupa\Azure\Api\TasksApi</parameter>
+
+        <parameter key="progrupa.azure.shared_key_auth.class">Progrupa\Azure\Authentication\SharedKeyPlugin</parameter>
+        <parameter key="progrupa.azure.oauth2_auth.class">Progrupa\Azure\Authentication\OAuth2Plugin</parameter>
+
+    </parameters>
+
+    <services>
+        <service id="progrupa.azure.config" class="%progrupa.azure.config.class%" public="false" />
+        <service id="progrupa.azure.http" class="%progrupa.azure.http.class%" public="false">
+            <argument type="collection">
+                <argument key="base_uri">%progrupa.azure.api_endpoint%</argument>
+            </argument>
+        </service>
+        <service id="progrupa.azure.client" class="%progrupa.azure.client.class%">
+            <argument type="service" id="progrupa.azure.config" />
+            <argument type="service" id="progrupa.azure.http" />
+            <argument type="service" id="progrupa.azure.authentication.plugin" />
+        </service>
+        <!-- API services -->
+        <service id="progrupa.azure.accounts_api" class="%progrupa.azure.accounts_api.class%">
+            <argument type="service" id="progrupa.azure.client" />
+        </service>
+        <service id="progrupa.azure.applications_api" class="%progrupa.azure.applications_api.class%">
+            <argument type="service" id="progrupa.azure.client" />
+        </service>
+        <service id="progrupa.azure.certificates_api" class="%progrupa.azure.certificates_api.class%">
+            <argument type="service" id="progrupa.azure.client" />
+        </service>
+        <service id="progrupa.azure.compute_nodes_api" class="%progrupa.azure.compute_nodes_api.class%">
+            <argument type="service" id="progrupa.azure.client" />
+        </service>
+        <service id="progrupa.azure.files_api" class="%progrupa.azure.files_api.class%">
+            <argument type="service" id="progrupa.azure.client" />
+        </service>
+        <service id="progrupa.azure.jobs_api" class="%progrupa.azure.jobs_api.class%">
+            <argument type="service" id="progrupa.azure.client" />
+        </service>
+        <service id="progrupa.azure.job_schedules_api" class="%progrupa.azure.job_schedules_api.class%">
+            <argument type="service" id="progrupa.azure.client" />
+        </service>
+        <service id="progrupa.azure.pools_api" class="%progrupa.azure.pools_api.class%">
+            <argument type="service" id="progrupa.azure.client" />
+        </service>
+        <service id="progrupa.azure.tasks_api" class="%progrupa.azure.tasks_api.class%">
+            <argument type="service" id="progrupa.azure.client" />
+        </service>
+        <!-- Auth plugin template -->
+        <service id="progrupa.azure.authentication.plugin" />
+    </services>
+</container>

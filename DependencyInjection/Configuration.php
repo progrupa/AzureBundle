@@ -20,9 +20,22 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $treeBuilder->root('progrupa_azure')
             ->children()
-                ->scalarNode('account_name')->isRequired(true)->end()
-                ->scalarNode('account_key')->isRequired(true)->end()
                 ->scalarNode('account_url')->isRequired(true)->end()
+                ->arrayNode('shared_key')->canBeUnset()
+                    ->children()
+                        ->scalarNode('account_name')->isRequired(true)->end()
+                        ->scalarNode('account_key')->isRequired(true)->end()
+                    ->end()
+                ->end()
+                ->arrayNode('oauth2')->canBeUnset()
+                    ->children()
+                        ->scalarNode('active_directory_id')->isRequired(true)->end()
+                        ->scalarNode('application_id')->isRequired(true)->end()
+                        ->scalarNode('application_key')->isRequired(true)->end()
+                        ->scalarNode('application_redirect_url')->isRequired(true)->end()
+                        ->scalarNode('application_id_uri')->isRequired(true)->end()
+                    ->end()
+                ->end()
             ->end();
 
         return $treeBuilder;
